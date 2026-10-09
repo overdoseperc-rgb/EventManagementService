@@ -1,0 +1,4 @@
+Тестовый запуск для C:\Users\misarry\Documents\Codex\2026-10-09\referenced-chatgpt-conversation-this-is-an-2\outputs\EventManagementService\tests\EventManagementService.Tests\bin\Release\net10.0\EventManagementService.Tests.dll (.NETCoreApp,Version=v10.0)
+Общее количество тестовых файлов (1), соответствующих указанному шаблону.
+
+Пройден!   : не пройдено     0, пройдено    21, пропущено     0, всего    21, длительность 118 ms. - EventManagementService.Tests.dll (net10.0)

@@ -1,8 +1,0 @@
-  EventManagementService.Api -> C:\Users\misarry\Documents\Codex\2026-10-09\referenced-chatgpt-conversation-this-is-an-2\outputs\EventManagementService\src\EventManagementService.Api\bin\Release\net10.0\EventManagementService.Api.dll
-  EventManagementService.Tests -> C:\Users\misarry\Documents\Codex\2026-10-09\referenced-chatgpt-conversation-this-is-an-2\outputs\EventManagementService\tests\EventManagementService.Tests\bin\Release\net10.0\EventManagementService.Tests.dll
-
-Сборка успешно завершена.
-    Предупреждений: 0
-    Ошибок: 0
-
-Прошло времени 00:00:01.12

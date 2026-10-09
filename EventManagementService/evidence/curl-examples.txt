@@ -1,0 +1,64 @@
+**********************
+PowerShell transcript start
+Start time: 20261009174815
+Username: MISARRYNESS\misarry
+RunAs User: MISARRYNESS\misarry
+Configuration Name: 
+Machine: MISARRYNESS (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\misarry\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+$ErrorActionPreference='Stop'; Start-Transcript -Path evidence\curl-examples.txt; try { Write-Host 'Фактическая проверка JSON-примеров через curl.exe'; $createOutput=@(& curl.exe -sS -i -H 'Content-Type: application/json' --data-binary '@examples/create.json' http://localhost:8080/events); $createOutput | ForEach-Object { Write-Host $_ }; if($LASTEXITCODE -ne 0 -or $createOutput[0] -notmatch '201'){throw 'curl POST failed'}; $created=($createOutput | Where-Object { $_ -match '^\{' } | Select-Object -Last 1) | ConvertFrom-Json; $eventId=$created.id; & curl.exe -sS -i "http://localhost:8080/events/$eventId" | ForEach-Object { Write-Host $_ }; & curl.exe -sS -i -X PUT -H 'Content-Type: application/json' --data-binary '@examples/update.json' "http://localhost:8080/events/$eventId" | ForEach-Object { Write-Host $_ }; & curl.exe -sS -i -H 'Content-Type: application/json' --data-binary '@examples/invalid.json' http://localhost:8080/events | ForEach-Object { Write-Host $_ }; & curl.exe -sS -i -X DELETE "http://localhost:8080/events/$eventId" | ForEach-Object { Write-Host $_ }; & curl.exe -sS -i "http://localhost:8080/events/$eventId" | ForEach-Object { Write-Host $_ }; } finally { Stop-Transcript }; docker compose ps --all | Set-Content -Encoding utf8 evidence\compose-ps.txt; docker compose logs --no-color --tail 100 | Set-Content -Encoding utf8 evidence\compose-logs.txt; docker compose exec -T api dotnet --info | Set-Content -Encoding utf8 evidence\container-runtime.txt; docker volume inspect eventmanagement-compose_db_data | Set-Content -Encoding utf8 evidence\volume-inspect.json; Get-Content evidence\container-runtime.txt | Select-Object -First 14; Get-ChildItem -Recurse -File | Where-Object FullName -NotMatch '[\\/](bin|obj)[\\/]' | Select-Object -ExpandProperty FullName
+Process ID: 21052
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is evidence\curl-examples.txt
+Фактическая проверка JSON-примеров через curl.exe
+HTTP/1.1 201 Created
+Content-Type: application/json; charset=utf-8
+Date: Fri, 09 Oct 2026 14:48:14 GMT
+Server: Kestrel
+Location: /events/5
+Transfer-Encoding: chunked
+
+{"id":5,"title":"Конференция разработчиков","date":"2026-10-15","location":"Казань","description":"Конференция для разработчиков ПО"}
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Date: Fri, 09 Oct 2026 14:48:14 GMT
+Server: Kestrel
+Transfer-Encoding: chunked
+
+{"id":5,"title":"Конференция разработчиков","date":"2026-10-15","location":"Казань","description":"Конференция для разработчиков ПО"}
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Date: Fri, 09 Oct 2026 14:48:14 GMT
+Server: Kestrel
+Transfer-Encoding: chunked
+
+{"id":5,"title":"Конференция разработчиков — обновлено","date":"2026-10-16","location":"Москва","description":"Обновлённая программа"}
+HTTP/1.1 400 Bad Request
+Content-Type: application/problem+json
+Date: Fri, 09 Oct 2026 14:48:14 GMT
+Server: Kestrel
+Transfer-Encoding: chunked
+
+{"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"title":["Название обязательно, не более 200 символов."]},"traceId":"00-83c57c7eb1173e4d6646d4da9622a006-ec182d3a12545366-00"}
+HTTP/1.1 204 No Content
+Date: Fri, 09 Oct 2026 14:48:14 GMT
+Server: Kestrel
+
+HTTP/1.1 404 Not Found
+Content-Length: 0
+Date: Fri, 09 Oct 2026 14:48:14 GMT
+Server: Kestrel
+
+**********************
+PowerShell transcript end
+End time: 20261009174815
+**********************
